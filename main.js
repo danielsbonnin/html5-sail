@@ -130,7 +130,18 @@ function doIdle(event) {
     if (Date.now() - lastFrame > (1000 / frameRate)) {
         lastFrame = Date.now();
         boat.updatePos();
-        minimap.setBoatPos(boat.pos);
+        let boatArgs = {
+			originOffset: {x:boat.pos.x,y:boat.pos.y},
+			rotation: -boat.angle,
+			boatColor: BOAT_COLOR, 
+			tiltScale: Math.cos (boat.tilt), 
+			lineWidth: Math.abs( boat.tilt / 20 ) + 5, 
+			boatSize: 5,
+			sailColor: "#fff",
+			tilt: boat.tilt,
+            boom: boat.boom,
+		}
+        minimap.setBoatPos({boatInfo: boatArgs});
         redraw();	
     }
     requestAnimationFrame(doIdle);

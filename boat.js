@@ -30,6 +30,9 @@ class Boat {
 		this.sheet = Math.PI/2; // The rope controlling the boom
 		this.rudder = 0; 
 		this.relativeWind = calculateRelativeWind(wind.angle, this.angle);
+		this.hullComponent = new BoatHull();
+		this.sailComponent = new SailComponent();
+		this.boatComponent = new BoatComponent()
 	}
 
 	updatePos () {
@@ -59,74 +62,49 @@ class Boat {
 	}
 
 	drawSail (ctx) {
-		// calculate positions
-		var mastTop = { x: mastBase.x, y: mastBase.y - mastHeight * Math.sin(this.tilt) };
-		var mastHead = { x: mastBase.x, y: mastBase.y - sailHeight * Math.sin(this.tilt) };
-		var tack = { x: mastBase.x, y: mastBase.y - boomHeight * Math.sin(this.tilt) };
-		var clew = { x: mastBase.x - boomLength * Math.cos(-this.boom), 
-					y: mastBase.y - boomLength * Math.sin(-this.boom) * Math.cos(this.tilt)
-								- boomHeight * Math.sin(this.tilt) }
-
-		// boom
-		ctx.strokeStyle = "#590000";
-		ctx.lineWidth = 5;
-		ctx.beginPath();
-		ctx.moveTo (tack.x, tack.y);
-		ctx.lineTo (clew.x, clew.y);
-		ctx.closePath();	
-		ctx.stroke();
-
-		// sail
-		ctx.fillStyle = "#fff";
-		ctx.strokeStyle = "#fff";
-		ctx.lineWidth = 2;
-		ctx.beginPath();
-		ctx.moveTo (tack.x, tack.y);
-		ctx.lineTo (clew.x, clew.y);
-		ctx.lineTo (mastHead.x, mastHead.y);
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
-
-		// mast
-		ctx.strokeStyle = "#590000";
-		ctx.lineWidth = 3;
-		ctx.beginPath();
-		ctx.moveTo (mastBase.x, mastBase.y);
-		ctx.lineTo (mastTop.x, mastTop.y);
-		ctx.closePath();
-		ctx.stroke(); 
+		this.sailComponent.draw(ctx, {
+			originOffset: {
+				x: 0,
+				y: 0
+			},
+			rotation: -Math.PI/2,
+			boatColor: BOAT_COLOR,
+			tiltScale: 1,
+			lineWidth: 1,
+			boatSize: boatSize,
+			sailColor: "#fff",
+			tilt: this.tilt,
+			boom: this.boom
+		});
 	}
 
 	drawHull = function (ctx) {
-
-		var tiltScale = Math.cos (this.tilt);
-
-		ctx.fillStyle = BOAT_COLOR;
-		ctx.strokeStyle = BOAT_COLOR;
-
-		ctx.lineJoin = "round";
-		ctx.lineWidth = Math.abs( boat.tilt / 20 ) + 5;
-
-		ctx.beginPath();
-
-		ctx.moveTo (boatCoords[0].x, boatCoords[0].y * tiltScale);
-		ctx.lineTo (boatCoords[1].x, boatCoords[1].y * tiltScale);
-		ctx.lineTo (boatCoords[2].x, boatCoords[2].y * tiltScale);
-		ctx.lineTo (boatCoords[3].x, boatCoords[3].y * tiltScale);
-		ctx.lineTo (boatCoords[4].x, boatCoords[4].y * tiltScale);
-
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
+		this.hullComponent.draw(ctx, 
+			{
+				originOffset: {x:0,y:0},
+				rotation: 0,
+				boatColor: BOAT_COLOR, 
+				tiltScale: Math.cos (this.tilt), 
+				lineWidth: Math.abs( boat.tilt / 20 ) + 5, 
+				boatSize: 40
+			});
 	}
 
 	draw(ctx) {
-		ctx.save();
-		ctx.rotate(-this.angle);
-		this.drawHull(ctx);
-		this.drawSail(ctx);
-		ctx.restore();
+		let boatArgs = {
+			originOffset: {x:0,y:0},
+			rotation: -this.angle,
+			boatColor: BOAT_COLOR, 
+			tiltScale: Math.cos (this.tilt), 
+			lineWidth: Math.abs( this.tilt / 20 ) + 5, 
+			boatSize: 40,
+			sailColor: "#fff",
+			tilt: this.tilt,
+			boom: this.boom,
+			relWind: this.relWind
+		}
+		
+		this.boatComponent.draw(ctx, boatArgs);
 	}
 
 	/**
