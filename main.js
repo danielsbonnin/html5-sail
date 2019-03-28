@@ -10,8 +10,8 @@ const WIND_IMG_SRC = "lib/wind-arrow.png";
 const WATER_IMG_SRC = 'lib/water-texture-3.jpg';
 
 // dimensions of minimap
-const MAP_HEIGHT = 10000;
-const MAP_WIDTH = 10000;
+const MAP_HEIGHT = 2000;
+const MAP_WIDTH = 2000;
 
 var frameRate = 30;
 
@@ -68,11 +68,8 @@ function init() {
     windCan.width = MAIN_CANVAS_WIDTH;
     windCan.height = MAIN_CANVAS_HEIGHT;
 
-    miniMapCanvas.width = MINIMAP_CANVAS_WIDTH + 5;  // padding to simplify drawing
-    miniMapCanvas.height = MINIMAP_CANVAS_HEIGHT + 5;
-
     wind = new Wind(windCan);
-    minimap = new MiniMap(MINIMAP_CANVAS_HEIGHT, MINIMAP_CANVAS_WIDTH, miniMapCanvas, {x: 0,y:0});
+    minimap = new MiniMap(MINIMAP_CANVAS_WIDTH, MINIMAP_CANVAS_HEIGHT, miniMapCanvas, {x: 0,y:0});
     boat = new Boat();
     water = new Water(waterCanvas);
 
@@ -163,7 +160,6 @@ function displayInfo() {
     }
     speedGauge.updateValue(boat.speed);
     boatAngleGuage.setAttribute("data-value",-rad2deg(boat.angle - Math.PI/2));
- 
     boatInfoDisplay.draw(simInfo.boat);
 }
 
