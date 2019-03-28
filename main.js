@@ -147,26 +147,24 @@ function redraw() {
 }
 
 function displayInfo() {
-
+    let simInfo = 
+    {
+        windAngle: wind.angle,
+        boat: {
+            relBoom: boat.boom,
+            relWind: boat.relativeWind,
+            speed: boat.speed,
+            angle: boat.angle,
+            tilt: boat.tilt,
+            sheet: boat.sheet,
+            boomToWind: rad2deg( radDiff( boat.angle + boat.boom, wind.angle )),
+            position: boat.pos
+        }
+    }
     speedGauge.updateValue(boat.speed);
-
     boatAngleGuage.setAttribute("data-value",-rad2deg(boat.angle - Math.PI/2));
-
-    let relWind = boat.relativeWind;
-    boatInfoDisplay.relativeWind = relWind; 
-    boatInfoDisplay.drawRelWind();
-
-    let relBoom = boat.boom;
-    boatInfoDisplay.relativeBoom = relBoom;
-    boatInfoDisplay.drawRelBoom();
-
-    let str = "| tilt: " + Math.round(rad2deg( boat.tilt )) + 
-            "\n | boom: " + Math.round(rad2deg(boat.boom)) + 
-            "\n | boom-to-wind: " + Math.round(rad2deg( radDiff( boat.angle + boat.boom, wind.angle ))) + 
-            "\n | relativeWind: " + Math.round(rad2deg(relWind)) + 
-            "\n | sheet: " + Math.round(rad2deg(boat.sheet)) +
-            "\n | pos: (" + Math.round(boat.pos.x) + ", " + Math.round(boat.pos.y) + ")";
-    document.getElementById("footer").innerText = str;
+ 
+    boatInfoDisplay.draw(simInfo.boat);
 }
 
 function getMousePos(canvas, evt) {
