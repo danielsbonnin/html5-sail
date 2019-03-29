@@ -28,7 +28,8 @@ class Water {
         let h = this.image.height;
         let offset = { x: modulo( -boatPos.x, w ),
                     y: modulo(  boatPos.y, h )  };	
-        this.ctx.translate( offset.x, offset.y );  // changes reference for water pattern
+        let boatSize = 40;
+        this.ctx.translate( offset.x, offset.y);  // changes reference for water pattern
         this.ctx.fillStyle = this.pattern;
         
         // coords adjusted to correspond to canvas
@@ -40,6 +41,7 @@ class Water {
         // Add boundary line in zoom view
         this.ctx.strokeStyle = "red";
         this.ctx.lineWidth = 5;
-        this.ctx.strokeRect(-((MAP_WIDTH/2) + boatPos.x), -((MAP_HEIGHT/2)-boatPos.y), MAP_WIDTH, MAP_HEIGHT);
+        this.ctx.strokeRect(-((MAP_WIDTH/2) + boatPos.x) - boatSize, -((MAP_HEIGHT/2)-boatPos.y) - boatSize, 
+            MAP_WIDTH+boatSize*2, MAP_HEIGHT+boatSize*2);
     }
 }
