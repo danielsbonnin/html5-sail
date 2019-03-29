@@ -58,74 +58,11 @@ class Boat {
 		this.pos.y = clip(this.pos.y + Math.sin(this.angle)*this.speed, -MAP_HEIGHT/2, MAP_HEIGHT/2);
 	}
 
-	drawSail (ctx) {
-		// calculate positions
-		var mastTop = { x: mastBase.x, y: mastBase.y - mastHeight * Math.sin(this.tilt) };
-		var mastHead = { x: mastBase.x, y: mastBase.y - sailHeight * Math.sin(this.tilt) };
-		var tack = { x: mastBase.x, y: mastBase.y - boomHeight * Math.sin(this.tilt) };
-		var clew = { x: mastBase.x - boomLength * Math.cos(-this.boom), 
-					y: mastBase.y - boomLength * Math.sin(-this.boom) * Math.cos(this.tilt)
-								- boomHeight * Math.sin(this.tilt) }
-
-		// boom
-		ctx.strokeStyle = "#590000";
-		ctx.lineWidth = 5;
-		ctx.beginPath();
-		ctx.moveTo (tack.x, tack.y);
-		ctx.lineTo (clew.x, clew.y);
-		ctx.closePath();	
-		ctx.stroke();
-
-		// sail
-		ctx.fillStyle = "#fff";
-		ctx.strokeStyle = "#fff";
-		ctx.lineWidth = 2;
-		ctx.beginPath();
-		ctx.moveTo (tack.x, tack.y);
-		ctx.lineTo (clew.x, clew.y);
-		ctx.lineTo (mastHead.x, mastHead.y);
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
-
-		// mast
-		ctx.strokeStyle = "#590000";
-		ctx.lineWidth = 3;
-		ctx.beginPath();
-		ctx.moveTo (mastBase.x, mastBase.y);
-		ctx.lineTo (mastTop.x, mastTop.y);
-		ctx.closePath();
-		ctx.stroke(); 
-	}
-
-	drawHull = function (ctx) {
-
-		var tiltScale = Math.cos (this.tilt);
-
-		ctx.fillStyle = BOAT_COLOR;
-		ctx.strokeStyle = BOAT_COLOR;
-
-		ctx.lineJoin = "round";
-		ctx.lineWidth = Math.abs( boat.tilt / 20 ) + 5;
-
-		ctx.beginPath();
-
-		ctx.moveTo (boatCoords[0].x, boatCoords[0].y * tiltScale);
-		ctx.lineTo (boatCoords[1].x, boatCoords[1].y * tiltScale);
-		ctx.lineTo (boatCoords[2].x, boatCoords[2].y * tiltScale);
-		ctx.lineTo (boatCoords[3].x, boatCoords[3].y * tiltScale);
-		ctx.lineTo (boatCoords[4].x, boatCoords[4].y * tiltScale);
-
-		ctx.closePath();
-		ctx.fill();
-		ctx.stroke();
-	}
-
 	draw(ctx) {
 		ctx.save();
 		ctx.rotate(-this.angle);
-		this.drawHull(ctx);
-		this.drawSail(ctx);
+		HullComponent.draw(ctx);
+		SailComponent.draw(ctx);
 		ctx.restore();
 	}
 
