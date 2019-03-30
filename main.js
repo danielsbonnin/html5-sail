@@ -6,8 +6,8 @@ const MAIN_CANVAS_HEIGHT = 300;
 var MAX_MINIMAP_CANVAS_WIDTH = 300;
 var MAX_MINIMAP_CANVAS_HEIGHT = 300;
 
-const WIND_IMG_SRC = "lib/wind-arrow.png";
-const WATER_IMG_SRC = 'lib/water-texture-3.jpg';
+const WIND_IMG_SRC = "assets/wind-arrow.png";
+const WATER_IMG_SRC = 'assets/water-texture-3.jpg';
 
 // dimensions of minimap
 const MAP_HEIGHT = 300000;
