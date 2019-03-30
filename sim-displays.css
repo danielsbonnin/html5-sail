@@ -1,0 +1,30 @@
+/* The canvas containing the mini-map */
+#miniMap {
+    margin-right: 10px;
+    height: 305px;
+    width: 305px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* container for the water and wind canvases */
+#zoomView {
+    position: absolute;
+    display: inline-block;
+    height: 305px;
+    width: 500px;
+}
+
+/* the canvas elements for the zoomView */
+#waterCanvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#windCanvas {
+    position: absolute;
+    pointer-events: none;
+}

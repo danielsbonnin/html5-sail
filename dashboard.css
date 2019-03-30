@@ -1,0 +1,60 @@
+#boatInfoDisplay {
+    position: relative;
+}
+
+.stackedCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#dashboardContainer {
+    display: inline-block;
+}
+
+.dashboardBtn {
+    margin: 10px;
+    height: 50px;
+    min-width: 70px;
+}
+
+#dataContainer {
+    position: relative;
+    display: inline-block;
+    width: 800px;
+    border-style: solid;
+    border-color: grey;
+}
+
+.dashboardDataItem {
+    float: left;
+    border: solid;
+    margin: 5px;
+    text-align: center;
+}
+.dashboardDataItem > span {
+    font-size: 16pt;
+    font-weight: bold;
+    display: block;
+    margin: 5%;
+}
+.dashboardDataItem > .guageContainer {
+    display: inline-block;
+    height: 180px;
+    width: 180px;
+    align-content: center;
+}
+
+.fancyGuage {
+    display: inline-flex;
+    margin: auto;
+}
+
+.dashboardDataItem > .boatInfoDisplay {
+    display: inline-flex;
+    margin: auto;
+}
+
+.dashboardBtn {
+    max-height: 30px;
+}
