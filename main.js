@@ -10,8 +10,8 @@ const WIND_IMG_SRC = "lib/wind-arrow.png";
 const WATER_IMG_SRC = 'lib/water-texture-3.jpg';
 
 // dimensions of minimap
-const MAP_HEIGHT = 100;
-const MAP_WIDTH = 200;
+const MAP_HEIGHT = 35;
+const MAP_WIDTH = 35;
 
 var frameRate = 30;
 
