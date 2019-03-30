@@ -3,15 +3,15 @@ window.onload = init;
 const MAIN_CANVAS_WIDTH = 500;
 const MAIN_CANVAS_HEIGHT = 300;
 
-const MINIMAP_CANVAS_WIDTH = 300;
-const MINIMAP_CANVAS_HEIGHT = 300;
+var MAX_MINIMAP_CANVAS_WIDTH = 300;
+var MAX_MINIMAP_CANVAS_HEIGHT = 300;
 
 const WIND_IMG_SRC = "lib/wind-arrow.png";
 const WATER_IMG_SRC = 'lib/water-texture-3.jpg';
 
 // dimensions of minimap
-const MAP_HEIGHT = 35;
-const MAP_WIDTH = 35;
+const MAP_HEIGHT = 300000;
+const MAP_WIDTH = 300000;
 
 var frameRate = 30;
 
@@ -69,7 +69,17 @@ function init() {
     windCan.height = MAIN_CANVAS_HEIGHT;
 
     wind = new Wind(windCan);
-    minimap = new MiniMap(MINIMAP_CANVAS_WIDTH, MINIMAP_CANVAS_HEIGHT, miniMapCanvas, {x: 0,y:0});
+
+    let mapAspectRatio = MAP_WIDTH / MAP_HEIGHT;
+    let minimapCanvasWidth, minimapCanvasHeight;
+    if (mapAspectRatio > 1) {
+       minimapCanvasWidth = MAX_MINIMAP_CANVAS_WIDTH; 
+       minimapCanvasHeight = minimapCanvasWidth / mapAspectRatio;
+    } else {
+        minimapCanvasHeight = MAX_MINIMAP_CANVAS_HEIGHT;
+        minimapCanvasWidth = minimapCanvasHeight * mapAspectRatio;
+    }
+    minimap = new MiniMap(minimapCanvasWidth, minimapCanvasHeight, miniMapCanvas, {x: 0,y:0});
     boat = new Boat();
     water = new Water(waterCanvas);
 

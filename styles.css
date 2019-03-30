@@ -43,6 +43,7 @@ body {
     height: 305px;
     width: 305px;
     display: inline-block;
+    vertical-align: middle;
 }
 
 /* container for the water and wind canvases */

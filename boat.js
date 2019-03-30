@@ -52,6 +52,8 @@ class Boat {
 		this.boom = clip(-this.relativeWind, -this.sheet, this.sheet);
 		this.tilt = Math.cos(this.boom) * Math.sin(this.relativeWind + this.boom) * 0.8;
 		let newSpeed = -(Math.sin(this.boom) * Math.sin(this.relativeWind + this.boom)) * 15;
+
+		// inertia
 		let speedDelta = newSpeed - this.speed;
 		this.speed += speedDelta * INERTIA;
 		
