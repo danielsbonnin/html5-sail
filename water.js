@@ -13,7 +13,7 @@ class Water {
         this.ctx.clearRect(-this.element.width/2, -this.element.height/2, this.element.width, this.element.height);
         this.ctx.translate(this.element.width/2, this.element.height/2);
         this.pattern = this.ctx.createPattern(this.image,'repeat');
-        this.ctx.strokeRect(0, 0, MAP_WIDTH, MAP_HEIGHT);
+        this.ctx.strokeRect(0, 0, mapWidth, mapHeight);
         this.element.focus();
         redraw();
     }
@@ -41,7 +41,7 @@ class Water {
         // Add boundary line in zoom view
         this.ctx.strokeStyle = "red";
         this.ctx.lineWidth = 5;
-        this.ctx.strokeRect(-((MAP_WIDTH/2) + boatPos.x) - boatSize, -((MAP_HEIGHT/2)-boatPos.y) - boatSize, 
-            MAP_WIDTH+boatSize*2, MAP_HEIGHT+boatSize*2);
+        this.ctx.strokeRect(-((mapWidth/2) + boatPos.x) - boatSize, -((mapHeight/2)-boatPos.y) - boatSize, 
+            mapWidth+boatSize*2, mapHeight+boatSize*2);
     }
 }

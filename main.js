@@ -10,8 +10,8 @@ const WIND_IMG_SRC = "assets/wind-arrow.png";
 const WATER_IMG_SRC = 'assets/water-texture-3.jpg';
 
 // dimensions of minimap
-const MAP_HEIGHT = 300000;
-const MAP_WIDTH = 300000;
+var mapHeight = 3000;
+var mapWidth = 3000;
 
 var frameRate = 30;
 
@@ -22,7 +22,7 @@ var minimap, wind, boat, water;
 
 // controls
 var stopBtn, resetPosBtn, frameRateDisplay, rudderDisplay, frameRateCtrl, rudderCtrl;
-var windCtrl, windDisplay, speedMeter, boatInfoDisplay;
+var windCtrl, windDisplay, speedMeter, boatInfoDisplay, mapSizeCtrl, mapSizeDisplay;
 
 // Time of last animation frame (for controlling framerate)
 var lastFrame = Date.now();
@@ -51,6 +51,10 @@ function init() {
     frameRateDisplay.value = frameRate;
     frameRateDisplay.disabled = true;
 
+    mapSizeCtrl = document.getElementById("mapSizeCtrl");
+    mapSizeDisplay = document.getElementById("mapSizeDisplay");
+    mapSizeDisplay.value = mapHeight;
+
     rudderCtrl = document.getElementById("rudderCtrl");
     rudderDisplay = document.getElementById("rudderDisplay");
     rudderDisplay.disabled = true;
@@ -70,7 +74,7 @@ function init() {
 
     wind = new Wind(windCan);
 
-    let mapAspectRatio = MAP_WIDTH / MAP_HEIGHT;
+    let mapAspectRatio = mapWidth / mapHeight;
     let minimapCanvasWidth, minimapCanvasHeight;
     if (mapAspectRatio > 1) {
        minimapCanvasWidth = MAX_MINIMAP_CANVAS_WIDTH; 
@@ -91,6 +95,8 @@ function init() {
     rudderCtrl.addEventListener("input", onRudderInput, false);
     rudderCtrl.addEventListener("mouseup", onRudderMouseup);
     windCtrl.addEventListener("input", onWindInput, false);
+    mapSizeCtrl.addEventListener("input", onMapSizeInput, false);
+    mapSizeDisplay.addEventListener("change", onMapSizeInput, false);
     
     toggleLoop();
 }
@@ -98,6 +104,11 @@ function init() {
 function onFrameRateInput(ev) {
     frameRate = +ev.srcElement.value;
     frameRateDisplay.value = frameRate;
+}
+
+function onMapSizeInput(ev) {
+    mapHeight = mapWidth = +ev.srcElement.value;
+    mapSizeDisplay.value = mapHeight;
 }
 
 function onRudderInput(ev) {

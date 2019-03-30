@@ -26,7 +26,7 @@ body {
     max-height: 30px;
 }
 
-#frameRateContainer {
+#simControls> .sliderContainer {
     display: inline-block;
     vertical-align: middle;
     margin: auto;
@@ -102,6 +102,10 @@ body {
 
 .sliderContainer>input {
     width: 4ch;
+}
+
+#mapSizeContainer>input{
+    width: 8ch;
 }
 
 #dataContainer {

@@ -57,8 +57,8 @@ class Boat {
 		let speedDelta = newSpeed - this.speed;
 		this.speed += speedDelta * INERTIA;
 		
-		this.pos.x = clip(this.pos.x + Math.cos(this.angle)*this.speed, -MAP_WIDTH/2, MAP_WIDTH/2);
-		this.pos.y = clip(this.pos.y + Math.sin(this.angle)*this.speed, -MAP_HEIGHT/2, MAP_HEIGHT/2);
+		this.pos.x = clip(this.pos.x + Math.cos(this.angle)*this.speed, -mapWidth/2, mapWidth/2);
+		this.pos.y = clip(this.pos.y + Math.sin(this.angle)*this.speed, -mapHeight/2, mapHeight/2);
 	}
 
 	draw(ctx) {
