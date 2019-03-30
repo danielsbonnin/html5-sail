@@ -46,7 +46,12 @@ class Boat {
 		this.angle = newAngle;
 
 		this.relativeWind = calculateRelativeWind(wind.angle, this.angle);
-		this.sheet = this.calculateSheet(this.relativeWind);
+
+		if (manualSheet) {
+			this.sheet = sheetInputVal;
+		} else {
+			this.sheet = this.calculateSheet(this.relativeWind);
+		}
 
 		// set the boom angle to the opposite of the boat angle restricted by sheet
 		this.boom = clip(-this.relativeWind, -this.sheet, this.sheet);

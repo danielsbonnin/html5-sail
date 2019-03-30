@@ -23,6 +23,10 @@ var minimap, wind, boat, water;
 // controls
 var stopBtn, resetPosBtn, frameRateDisplay, rudderDisplay, frameRateCtrl, rudderCtrl;
 var windCtrl, windDisplay, speedMeter, boatInfoDisplay, mapSizeCtrl, mapSizeDisplay;
+var sheetCtrl, sheetDisplay, sheetToggle;
+
+var manualSheet = false;
+var sheetInputVal = 0;
 
 // Time of last animation frame (for controlling framerate)
 var lastFrame = Date.now();
@@ -65,6 +69,12 @@ function init() {
     windDisplay.value = 0;
     windDisplay.disabled = true;
 
+    sheetCtrl = document.getElementById("sheetCtrl");
+    sheetDisplay = document.getElementById("sheetDisplay");
+    sheetToggle = document.getElementById("sheetToggle");
+    sheetDisplay.value = 0;
+    sheetDisplay.disabled = true;
+
     speedGauge = new SpeedGauge("speedGauge");
     boatInfoDisplay = new BoatInfoDisplay("boatInfoDisplay");
     waterCanvas.width = MAIN_CANVAS_WIDTH;
@@ -97,6 +107,13 @@ function init() {
     windCtrl.addEventListener("input", onWindInput, false);
     mapSizeCtrl.addEventListener("input", onMapSizeInput, false);
     mapSizeDisplay.addEventListener("change", onMapSizeInput, false);
+    sheetCtrl.addEventListener("input", onSheetInput, false);
+    sheetToggle.addEventListener("input", onSheetToggle, false);
+    
+    if (!manualSheet) {
+        sheetDisplay.value = "AUTO";
+        sheetCtrl.disabled  = !manualSheet;
+    }
     
     toggleLoop();
 }
@@ -126,6 +143,24 @@ function onRudderMouseup(ev) {
     boat.rudder = 0;
     rudderDisplay.value = 0;
     rudderCtrl.value = 0;
+}
+
+function onSheetInput(ev) {
+    boat.sheet = ev.srcElement.value;
+    sheetInputVal = ev.srcElement.value;
+    sheetDisplay.value = rad2deg(sheetInputVal);
+}
+
+function onSheetToggle(ev) {
+    manualSheet = !manualSheet;
+    sheetCtrl.disabled = !manualSheet;
+    if (!manualSheet) {
+        sheetDisplay.value = "AUTO";
+    } else {
+        sheetInputVal = boat.sheet;
+        sheetCtrl.value = sheetInputVal;
+        sheetDisplay.value = rad2deg(sheetInputVal);
+    }
 }
 
 function toggleLoop() {

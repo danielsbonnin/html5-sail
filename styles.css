@@ -62,3 +62,7 @@ body {
 #mapSizeContainer>input{
     width: 8ch;
 }
+
+#sheetSliderContainer>input{
+    width: 6ch;
+}
