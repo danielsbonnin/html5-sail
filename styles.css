@@ -6,8 +6,7 @@ body {
 }
 
 #pageContent {
-    left: 0;
-    overflow-y: scroll;
+    overflow: scroll;
     width: 100%;
     height: 90%;
     padding-bottom: 50px;
