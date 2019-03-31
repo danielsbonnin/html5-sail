@@ -35,10 +35,11 @@ export default class BoatSimulation {
      * @param {*} sheet 
      */
     static calculateBoom(relativeWind, sheet) {
-        if (relativeWind < 0) {
-            return Math.max(sheet, relativeWind);
+        let boomRads = math.radModPosNeg(relativeWind);
+        if (boomRads < 0) {
+            return Math.min(sheet, -boomRads);
         } else {
-            return -Math.min(sheet, relativeWind);
+            return -Math.min(sheet, boomRads);
         }
     }
 
