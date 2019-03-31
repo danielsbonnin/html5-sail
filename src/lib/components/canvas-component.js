@@ -1,11 +1,9 @@
-var globs = require('../../sim_globals.js');
-var math = require('../math.js');
-var { HullComponent } = require('./hull-component.js');
-var { SailComponent } = require('./sail-component.js');
+import math from '../math';
+
 /**
  * A graphic primitive component
  */
-class CanvasComponent {
+export default class CanvasComponent {
     /**
      * Apply this component on the context
      * @param {Context2d Context} ctx 
@@ -18,7 +16,7 @@ class CanvasComponent {
 /**
  * Generic boat hull shape without deps on simulation state
  */
-class BoatHull extends CanvasComponent {
+export class BoatHull extends CanvasComponent {
     draw(ctx, args={width:100, height:100, boatColor:"#cd4236"}) {
         let boatSize = 40;
         // xy coords of boat facing East.
@@ -52,7 +50,7 @@ class BoatHull extends CanvasComponent {
     }
 }
 
-class WindArrow extends CanvasComponent {
+export class WindArrow extends CanvasComponent {
     draw(ctx,args={width: 100, height: 100, relWind: 0}) {
         ctx.save();
         ctx.clearRect(0, 0, args.width, args.height);
@@ -90,7 +88,7 @@ class WindArrow extends CanvasComponent {
     }
 }
 
-class BoomComponent extends CanvasComponent {
+export class BoomComponent extends CanvasComponent {
     draw(ctx, args={width: 100, height: 100, relBoom: 0}) {
         ctx.save();
         ctx.clearRect(0, 0, args.width, args.height);
@@ -113,43 +111,3 @@ class BoomComponent extends CanvasComponent {
         ctx.restore();
     }
 }
-
-class MiniMapComponent extends CanvasComponent {
-    draw(ctx, args={width: 100, height: 100, boatPos: {x: 0, y: 0}, mapWidth: 100, mapHeight: 100, boatSize: 10}) {
-        ctx.save();
-        ctx.clearRect(0, 0, args.width, args.height);
-        let lineWidth = 5;
-        ctx.lineWidth = lineWidth;
-        let boatScale = args.boatDisplaySize / 35;
-
-        // adjust width of sailing area for boat width and border
-        let adjustedWidth = args.width - (2*args.boatDisplaySize) - (2*lineWidth);
-        let adjustedHeight = args.height - (2*args.boatDisplaySize) - (2*lineWidth);
-        let offsetX = adjustedWidth/2;
-        let offsetY = adjustedHeight/2;
-        ctx.fillStyle = globs.water.pattern;
-        ctx.fillRect(0, 0, args.width, args.height);
-       
-        ctx.strokeRect(0, 0, args.width, args.height);
-
-        // boat position = pos / max * adjusted map size, normalized to positive vals
-        let x = args.boatPos.x/(args.mapWidth/2) * offsetX + offsetX;
-        let y = -args.boatPos.y/(args.mapHeight/2) * offsetY + offsetY;
-        ctx.save();
-        ctx.translate(x + lineWidth + args.boatDisplaySize, y+lineWidth + args.boatDisplaySize);
-        ctx.rotate(-globs.boat.angle);
-        ctx.scale(boatScale, boatScale);
-        HullComponent.draw(ctx);
-        SailComponent.draw(ctx);
-        ctx.restore();
-        ctx.restore();
-    }
-}
-
-module.exports = {
-    CanvasComponent: CanvasComponent,
-    WindArrow: WindArrow,
-    BoatHull: BoatHull,
-    MiniMapComponent: MiniMapComponent,
-    BoomComponent: BoomComponent
-};

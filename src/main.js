@@ -1,56 +1,13 @@
-var globs = require('./sim_globals.js');
-var { SpeedGauge } = require('./lib/components/speed-gauge.js');
-var { Wind } = require('./wind.js');
-var { Water } = require('./water.js');
-var { MiniMap } = require('./lib/components/minimap.js');
-var { BoatInfoDisplay } = require('./lib/components/boat-info-display.js');
-var { Boat } = require('./boat.js');
-var math = require('./lib/math.js');
+import globs from './sim_globals';
+import { SpeedGauge } from './lib/components/speed-gauge';
+import { Wind } from './wind';
+import { Water } from './water';
+import { MiniMap } from './lib/components/minimap';
+import { BoatInfoDisplay } from './lib/components/boat-info-display';
+import { Boat } from './boat';
+import math from './lib/math';
 
 window.onload = init;
-/*
-const MAIN_CANVAS_WIDTH = 500;
-const MAIN_CANVAS_HEIGHT = 300;
-
-var MAX_MINIMAP_CANVAS_WIDTH = 300;
-var MAX_MINIMAP_CANVAS_HEIGHT = 300;
-
-const WIND_IMG_SRC = "assets/wind-arrow.png";
-const WATER_IMG_SRC = 'assets/water-texture-3.jpg';
-
-// dimensions of minimap
-var mapHeight = 3000;
-var mapWidth = 3000;
-
-var frameRate = 30;
-
-// Scale changes in speed to simulate inertia
-const INERTIA = 0.05;  
-
-var minimap, wind, boat, water;
-
-// controls
-var stopBtn, resetPosBtn, frameRateDisplay, rudderDisplay, frameRateCtrl, rudderCtrl;
-var windCtrl, windDisplay, speedMeter, boatInfoDisplay, mapSizeCtrl, mapSizeDisplay;
-var sheetCtrl, sheetDisplay, sheetToggle;
-
-var manualSheet = false;
-var sheetInputVal = 0;
-
-// Time of last animation frame (for controlling framerate)
-var lastFrame = Date.now();
-var curAnimationFrame;
-var stopped = true;
-
-var boatAngleGauge;
-var speedGauge;
-
-var speedAverage = 0;
-var speedIdx = 0;
-const SPEED_AVG_ENTRIES = 10;
-var speedEntries = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-var speedSum = 0;
-*/
 
 function init() {
     let waterCanvas = document.getElementById("waterCanvas");
@@ -98,13 +55,13 @@ function init() {
     let mapAspectRatio = globs.mapWidth / globs.mapHeight;
     let minimapCanvasWidth, minimapCanvasHeight;
     if (mapAspectRatio > 1) {
-        globs.minimapCanvasWidth = globs.MAX_MINIMAP_CANVAS_WIDTH; 
-        globs.minimapCanvasHeight = globs.minimapCanvasWidth / globs.mapAspectRatio;
+        minimapCanvasWidth = globs.MAX_MINIMAP_CANVAS_WIDTH; 
+        minimapCanvasHeight = minimapCanvasWidth / mapAspectRatio;
     } else {
-        globs.minimapCanvasHeight = globs.MAX_MINIMAP_CANVAS_HEIGHT;
-        globs.minimapCanvasWidth = globs.minimapCanvasHeight * mapAspectRatio;
+        minimapCanvasHeight = globs.MAX_MINIMAP_CANVAS_HEIGHT;
+        minimapCanvasWidth = minimapCanvasHeight * mapAspectRatio;
     }
-    globs.minimap = new MiniMap(globs.minimapCanvasWidth, globs.minimapCanvasHeight, miniMapCanvas, {x: 0,y:0});
+    globs.minimap = new MiniMap(minimapCanvasWidth, minimapCanvasHeight, miniMapCanvas, {x: 0,y:0});
     globs.boat = new Boat();
     globs.water = new Water(waterCanvas);
 

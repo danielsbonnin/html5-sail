@@ -1,5 +1,5 @@
 var globs = require('../../sim_globals.js');
-var MiniMapComponent = require('./canvas-component.js').MiniMapComponent;
+var { MiniMapComponent } = require('./minimap-component.js');
 export class MiniMap {
     constructor(width, height, canvasElement, boatPos) {
         this.height = height;
