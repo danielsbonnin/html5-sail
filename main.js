@@ -1,5 +1,4 @@
 window.onload = init;
-
 const MAIN_CANVAS_WIDTH = 500;
 const MAIN_CANVAS_HEIGHT = 300;
 
