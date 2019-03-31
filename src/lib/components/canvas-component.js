@@ -15,6 +15,9 @@ class CanvasComponent {
     }
 }
 
+/**
+ * Generic boat hull shape without deps on simulation state
+ */
 class BoatHull extends CanvasComponent {
     draw(ctx, args={width:100, height:100, boatColor:"#cd4236"}) {
         let boatSize = 40;

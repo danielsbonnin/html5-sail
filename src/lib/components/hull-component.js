@@ -11,7 +11,6 @@ export class HullComponent {
 			ctx.lineWidth = Math.abs( globs.boat.tilt / 20 ) + 5;
 			ctx.save();
 			ctx.beginPath();
-
 			ctx.moveTo (globs.boatCoords[0].x, globs.boatCoords[0].y * tiltScale);
 			ctx.lineTo (globs.boatCoords[1].x, globs.boatCoords[1].y * tiltScale);
 			ctx.lineTo (globs.boatCoords[2].x, globs.boatCoords[2].y * tiltScale);
