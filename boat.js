@@ -52,6 +52,8 @@ class Boat {
 		} else {
 			this.sheet = this.calculateSheet(this.relativeWind);
 		}
+		sheetCtrl.value = this.sheet;
+		sheetDisplay.value = Math.round(Math.min(1, (rad2deg(this.sheet))/90) * 100);
 
 		// set the boom angle to the opposite of the boat angle restricted by sheet
 		this.boom = clip(-this.relativeWind, -this.sheet, this.sheet);

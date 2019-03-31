@@ -148,18 +148,15 @@ function onRudderMouseup(ev) {
 function onSheetInput(ev) {
     boat.sheet = ev.srcElement.value;
     sheetInputVal = ev.srcElement.value;
-    sheetDisplay.value = rad2deg(sheetInputVal);
 }
 
 function onSheetToggle(ev) {
     manualSheet = !manualSheet;
     sheetCtrl.disabled = !manualSheet;
     if (!manualSheet) {
-        sheetDisplay.value = "AUTO";
+        // sheetDisplay.value = "AUTO";
     } else {
         sheetInputVal = boat.sheet;
-        sheetCtrl.value = sheetInputVal;
-        sheetDisplay.value = rad2deg(sheetInputVal);
     }
 }
 
