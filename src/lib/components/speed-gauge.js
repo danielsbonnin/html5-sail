@@ -1,3 +1,5 @@
+var { RadialGauge } = require('./radial-gauge.js');
+
 class SpeedGauge {
     constructor(elementName) {
         this.gaugeValue = 0;
@@ -14,7 +16,6 @@ class SpeedGauge {
 
         this.updateValue(0);
         this.gauge.value = 0;
-
     }
 
     updateGaugeElement() {
@@ -25,3 +26,5 @@ class SpeedGauge {
         this.gaugeValue = val;
     }
 }
+
+module.exports = { SpeedGauge: SpeedGauge };

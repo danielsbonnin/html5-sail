@@ -1,3 +1,7 @@
+var globs = require('../../sim_globals.js');
+var math = require('../math.js');
+var { HullComponent } = require('./hull-component.js');
+var { SailComponent } = require('./sail-component.js');
 /**
  * A graphic primitive component
  */
@@ -15,11 +19,11 @@ class BoatHull extends CanvasComponent {
     draw(ctx, args={width:100, height:100, boatColor:"#cd4236"}) {
         let boatSize = 40;
         // xy coords of boat facing East.
-        let boatCoords = [ 	pol2car(boatSize, 0),
-            pol2car(boatSize/2, deg2rad(-70)),
-            pol2car(boatSize, deg2rad(-160)),
-            pol2car(boatSize, deg2rad(160)),
-            pol2car(boatSize/2, deg2rad(70)) ] ;
+        let boatCoords = [ 	math.pol2car(boatSize, 0),
+            math.pol2car(boatSize/2, math.deg2rad(-70)),
+            math.pol2car(boatSize, math.deg2rad(-160)),
+            math.pol2car(boatSize, math.deg2rad(160)),
+            math.pol2car(boatSize/2, math.deg2rad(70)) ] ;
         let tiltScale = 1;
         ctx.save();
         let width = args.width;
@@ -56,7 +60,7 @@ class WindArrow extends CanvasComponent {
 		ctx.lineWidth = 2;
         ctx.strokeStyle = windColor;
         
-        ctx.rotate(deg2rad(-90));
+        ctx.rotate(math.deg2rad(-90));
         ctx.beginPath();
         
         let mainLineAngle = args.relWind + Math.PI/2;
@@ -93,7 +97,7 @@ class BoomComponent extends CanvasComponent {
 		ctx.lineJoin = "round";
 		ctx.lineWidth = 5;
         ctx.strokeStyle = boomColor;
-        ctx.rotate(deg2rad(90));
+        ctx.rotate(math.deg2rad(90));
         let theBoomAngle = -args.relBoom + Math.PI/2;
         ctx.rotate(theBoomAngle);
         ctx.beginPath();
@@ -120,7 +124,7 @@ class MiniMapComponent extends CanvasComponent {
         let adjustedHeight = args.height - (2*args.boatDisplaySize) - (2*lineWidth);
         let offsetX = adjustedWidth/2;
         let offsetY = adjustedHeight/2;
-        ctx.fillStyle = water.pattern;
+        ctx.fillStyle = globs.water.pattern;
         ctx.fillRect(0, 0, args.width, args.height);
        
         ctx.strokeRect(0, 0, args.width, args.height);
@@ -130,7 +134,7 @@ class MiniMapComponent extends CanvasComponent {
         let y = -args.boatPos.y/(args.mapHeight/2) * offsetY + offsetY;
         ctx.save();
         ctx.translate(x + lineWidth + args.boatDisplaySize, y+lineWidth + args.boatDisplaySize);
-        ctx.rotate(-boat.angle);
+        ctx.rotate(-globs.boat.angle);
         ctx.scale(boatScale, boatScale);
         HullComponent.draw(ctx);
         SailComponent.draw(ctx);
@@ -138,3 +142,11 @@ class MiniMapComponent extends CanvasComponent {
         ctx.restore();
     }
 }
+
+module.exports = {
+    CanvasComponent: CanvasComponent,
+    WindArrow: WindArrow,
+    BoatHull: BoatHull,
+    MiniMapComponent: MiniMapComponent,
+    BoomComponent: BoomComponent
+};

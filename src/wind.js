@@ -1,8 +1,10 @@
-class Wind {
+var globs = require('./sim_globals.js');
+
+export class Wind {
 	constructor(canvasElement, windSpeed=3, startAngle=0) {
 		this.element = canvasElement;
 		this.image = new Image();
-		this.image.src = WIND_IMG_SRC;
+		this.image.src = globs.WIND_IMG_SRC;
 		this.angle = startAngle;
 		this.speed = windSpeed;
 		this.ctx = this.element.getContext("2d");

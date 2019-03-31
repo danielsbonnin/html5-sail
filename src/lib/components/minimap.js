@@ -1,4 +1,6 @@
-class MiniMap {
+var globs = require('../../sim_globals.js');
+var MiniMapComponent = require('./canvas-component.js').MiniMapComponent;
+export class MiniMap {
     constructor(width, height, canvasElement, boatPos) {
         this.height = height;
         this.width = width;
@@ -15,9 +17,9 @@ class MiniMap {
                 width: this.width,
                 height: this.height,
                 boatPos: pos,
-                mapWidth: mapWidth,
-                mapHeight: mapHeight,
-                boatDisplaySize: Math.max(10, 35 * 150 / Math.max(mapWidth, mapHeight))
+                mapWidth: globs.mapWidth,
+                mapHeight: globs.mapHeight,
+                boatDisplaySize: Math.max(10, 35 * 150 / Math.max(globs.mapWidth, globs.mapHeight))
             });
     }
 }

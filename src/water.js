@@ -1,9 +1,12 @@
-class Water {
+var globs = require('./sim_globals.js');
+var math = require('./lib/math.js');
+
+export class Water {
     constructor (canvasElement) {
         this.element = canvasElement;
         this.ctx = canvasElement.getContext("2d");
         this.image = new Image();
-        this.image.src = WATER_IMG_SRC;
+        this.image.src = globs.WATER_IMG_SRC;
         this.pattern = null;
         
         this.image.onload = () => { this.init(); }; 
@@ -13,9 +16,9 @@ class Water {
         this.ctx.clearRect(-this.element.width/2, -this.element.height/2, this.element.width, this.element.height);
         this.ctx.translate(this.element.width/2, this.element.height/2);
         this.pattern = this.ctx.createPattern(this.image,'repeat');
-        this.ctx.strokeRect(0, 0, mapWidth, mapHeight);
+        this.ctx.strokeRect(0, 0, globs.mapWidth, globs.mapHeight);
         this.element.focus();
-        redraw();
+        globs.redraw();
     }
 
     clearCanvas(event) {
@@ -26,8 +29,8 @@ class Water {
         this.ctx.save();
         let w = this.image.width; 
         let h = this.image.height;
-        let offset = { x: modulo( -boatPos.x, w ),
-                    y: modulo(  boatPos.y, h )  };	
+        let offset = { x: math.modulo( -boatPos.x, w ),
+                    y: math.modulo(  boatPos.y, h )  };	
         let boatSize = 40;
         this.ctx.translate( offset.x, offset.y);  // changes reference for water pattern
         this.ctx.fillStyle = this.pattern;
@@ -41,7 +44,7 @@ class Water {
         // Add boundary line in zoom view
         this.ctx.strokeStyle = "red";
         this.ctx.lineWidth = 5;
-        this.ctx.strokeRect(-((mapWidth/2) + boatPos.x) - boatSize, -((mapHeight/2)-boatPos.y) - boatSize, 
-            mapWidth+boatSize*2, mapHeight+boatSize*2);
+        this.ctx.strokeRect(-((globs.mapWidth/2) + boatPos.x) - boatSize, -((globs.mapHeight/2)-boatPos.y) - boatSize, 
+        globs.mapWidth+boatSize*2, globs.mapHeight+boatSize*2);
     }
 }

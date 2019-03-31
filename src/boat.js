@@ -1,26 +1,30 @@
+var globs = require('./sim_globals.js');
+var { HullComponent } = require('./lib/components/hull-component.js');
+var { SailComponent } = require('./lib/components/sail-component.js');
+var math = require('./lib/math.js');
+
 // BOAT CLASS //
 
-var boatSize = 35; // boat size
-var mastHeight = boatSize*1.8;
-var sailHeight = mastHeight * 0.95;
-var boomLength = boatSize*1.2;
-var boomHeight = mastHeight * 0.1;
+globs.mastHeight = globs.boatSize*1.8;
+globs.sailHeight = globs.mastHeight * 0.95;
+globs.boomLength = globs.boatSize*1.2;
+globs.boomHeight = globs.mastHeight * 0.1;
 
 // xy coords of boat facing East.
-var boatCoords = [ 	pol2car(boatSize, 0),
-					pol2car(boatSize/2, deg2rad(70)),
-					pol2car(boatSize, deg2rad(160)),
-					pol2car(boatSize, deg2rad(-160)),
-					pol2car(boatSize/2, deg2rad(-70)) ] ;
+globs.boatCoords = [ 	math.pol2car(globs.boatSize, 0),
+	math.pol2car(globs.boatSize/2, math.deg2rad(70)),
+	math.pol2car(globs.boatSize, math.deg2rad(160)),
+	math.pol2car(globs.boatSize, math.deg2rad(-160)),
+	math.pol2car(globs.boatSize/2, math.deg2rad(-70)) ] ;
 
-var mastBase = { x: boatSize/3, y: 0 };
+globs.mastBase = { x: globs.boatSize/3, y: 0 };
 
-const MAX_RUDDER = Math.PI/4;
-const BOAT_COLOR = "#cd4236";
+globs.MAX_RUDDER = Math.PI/4;
+globs.BOAT_COLOR = "#cd4236";
 // Change in heading at full rudder, speed: 1
-const HEADING_DELTA_MAX_RUDDER = Math.PI / 128;
+globs.HEADING_DELTA_MAX_RUDDER = Math.PI / 128;
 
-class Boat {
+export class Boat {
 	constructor() {
 		this.angle = Math.PI;
 		this.speed = 1;
@@ -29,7 +33,7 @@ class Boat {
 		this.boom = 0;
 		this.sheet = Math.PI/2; // The rope controlling the boom
 		this.rudder = 0; 
-		this.relativeWind = calculateRelativeWind(wind.angle, this.angle);
+		this.relativeWind = calculateRelativeWind(globs.wind.angle, this.angle);
 	}
 
 	updatePos () {
@@ -45,27 +49,27 @@ class Boat {
 		}
 		this.angle = newAngle;
 
-		this.relativeWind = calculateRelativeWind(wind.angle, this.angle);
+		this.relativeWind = calculateRelativeWind(globs.wind.angle, this.angle);
 
-		if (manualSheet) {
-			this.sheet = sheetInputVal;
+		if (globs.manualSheet) {
+			this.sheet = globs.sheetInputVal;
 		} else {
 			this.sheet = this.calculateSheet(this.relativeWind);
 		}
-		sheetCtrl.value = this.sheet;
-		sheetDisplay.value = Math.round(Math.min(1, (rad2deg(this.sheet))/90) * 100);
+		globs.sheetCtrl.value = this.sheet;
+		globs.sheetDisplay.value = Math.round(Math.min(1, (math.rad2deg(this.sheet))/90) * 100);
 
 		// set the boom angle to the opposite of the boat angle restricted by sheet
-		this.boom = clip(-this.relativeWind, -this.sheet, this.sheet);
+		this.boom = math.clip(-this.relativeWind, -this.sheet, this.sheet);
 		this.tilt = Math.cos(this.boom) * Math.sin(this.relativeWind + this.boom) * 0.8;
 		let newSpeed = -(Math.sin(this.boom) * Math.sin(this.relativeWind + this.boom)) * 15;
 
 		// inertia
 		let speedDelta = newSpeed - this.speed;
-		this.speed += speedDelta * INERTIA;
+		this.speed += speedDelta * globs.INERTIA;
 		
-		this.pos.x = clip(this.pos.x + Math.cos(this.angle)*this.speed, -mapWidth/2, mapWidth/2);
-		this.pos.y = clip(this.pos.y + Math.sin(this.angle)*this.speed, -mapHeight/2, mapHeight/2);
+		this.pos.x = math.clip(this.pos.x + Math.cos(this.angle)*this.speed, -globs.mapWidth/2, globs.mapWidth/2);
+		this.pos.y = math.clip(this.pos.y + Math.sin(this.angle)*this.speed, -globs.mapHeight/2, globs.mapHeight/2);
 	}
 
 	draw(ctx) {
@@ -88,12 +92,12 @@ class Boat {
 	 */
 	moveRudder (rudderDelta) {
 		let newRudder = this.rudder + rudderDelta;	
-		if (newRudder < -MAX_RUDDER) {
-			newRudder = -MAX_RUDDER;
-		} else if (newRudder > MAX_RUDDER) {
-			newRudder = MAX_RUDDER;
+		if (newRudder < -globs.MAX_RUDDER) {
+			newRudder = -globs.MAX_RUDDER;
+		} else if (newRudder > globs.MAX_RUDDER) {
+			newRudder = globs.MAX_RUDDER;
 		}
-		this.rudder = clip(this.rudder + rudderDelta, -MAX_RUDDER, MAX_RUDDER);
+		this.rudder = math.clip(this.rudder + rudderDelta, -globs.MAX_RUDDER, globs.MAX_RUDDER);
 	}
 }
 
@@ -103,7 +107,7 @@ class Boat {
  * @param {Number} speed 
  */
 function headingDelta(rudder, speed) {
-	return (rudderPercent(rudder)/100) * speed * HEADING_DELTA_MAX_RUDDER;
+	return (rudderPercent(rudder)/100) * speed * globs.HEADING_DELTA_MAX_RUDDER;
 }
 
 /**
@@ -114,7 +118,7 @@ function rudderPercent(rudder) {
 	if (Math.abs(rudder) < 0.001) {
 		rudder = 0.001;
 	}
-	return (rudder / MAX_RUDDER) * 100;
+	return (rudder / globs.MAX_RUDDER) * 100;
 }
 
 /**
@@ -128,9 +132,9 @@ function relWindToRelBoom(relWind) {
 function calculateRelativeWind(wind, heading) {
 	let newAngle = (heading - wind);
     if (newAngle < -Math.PI) {
-        newAngle = Math.PI + (newAngle % Math.PI);  // (newAngle % Math.PI) - Math.PI;
+        newAngle = Math.PI + (newAngle % Math.PI);
     } else if (newAngle > Math.PI) {
-        newAngle = -Math.PI + (newAngle % Math.PI); //  - newAngle; // (newAngle % Math.PI);
+        newAngle = -Math.PI + (newAngle % Math.PI); 
     } 
     return newAngle;
 }

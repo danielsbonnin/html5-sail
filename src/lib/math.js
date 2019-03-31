@@ -1,15 +1,17 @@
-function dist(pos1, pos2) {
+module.exports = {};
+
+module.exports.dist = function(pos1, pos2) {
 return Math.sqrt(
     Math.pow(pos1.x - pos2.x, 2) + 
     Math.pow(pos1.y - pos2.y, 2) )
 }	
 
-function rrnd(min, max) {
+module.exports.rrnd = function(min, max) {
 	return Math.floor(Math.random() * (max + 1 - min)) + min
 }
 
 //! make rgb string
-function rgbString(r, g, b){
+module.exports.rgbString = function(r, g, b){
     return "rgb("+r+","+g+","+b+")";
 }
 
@@ -18,12 +20,12 @@ function rgbString(r, g, b){
  * @param {*} min 
  * @param {*} max 
  */
-function clip(n, min, max) {
+module.exports.clip = function(n, min, max) {
     return Math.min( Math.max (n, min), max )
 }
 
 //modulo function that behaves like the lisp modulo (properly, i'd say, with negative numbers)
-function modulo(n, d) {
+module.exports.modulo = function(n, d) {
     if (n < 0)
          { return d - Math.abs(n % d) }
         else { 
@@ -31,26 +33,26 @@ function modulo(n, d) {
         } 
 }
 
-function scale(num, minin, minout, maxin, maxout) {
+module.exports.scale = function(num, minin, minout, maxin, maxout) {
     return maxin + ( (num - minin) * ( (maxout-maxin) / (minout-minin) ) );
 }
 
-function pol2car (dist, azi) {   
+module.exports.pol2car=function(dist, azi) {   
     return { 
         x:dist*Math.cos(azi),
         y:dist*Math.sin(azi)  
     }  
 }
 
-function car2pol (xy)
+module.exports.car2pol = function(xy)
 {   return { dist: dist( { x:0, y:0 }, xy), azi: Math.atan2(xy.y, xy.x) } }
 
-function deg2rad (deg) { return deg / 180 * Math.PI }
+module.exports.deg2rad = function(deg) { return deg / 180 * Math.PI }
 
-function rad2deg (rad) { return rad / Math.PI * 180 }
+module.exports.rad2deg = function(rad) { return rad / Math.PI * 180 }
 
-function radDiff (rad1, rad2) 
-{ return modulo( (rad1-rad2)+Math.PI, 2*Math.PI ) - Math.PI }
+module.exports.radDiff = function(rad1, rad2) 
+{ return module.exports.modulo( (rad1-rad2)+Math.PI, 2*Math.PI ) - Math.PI }
 
 /**
  * Converts an HSL color value to RGB. Conversion formula
@@ -63,7 +65,7 @@ function radDiff (rad1, rad2)
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-function hslToRgb(h, s, l){
+module.exports.hslToRgb = function(h, s, l){
     var r, g, b;
     if(s == 0){
         r = g = b = l; // achromatic

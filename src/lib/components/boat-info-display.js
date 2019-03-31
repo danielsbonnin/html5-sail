@@ -1,3 +1,6 @@
+var { BoatHull, WindArrow, BoomComponent } = require('./canvas-component');
+var globs = require('../../sim_globals.js');
+
 class BoatInfoDisplay {
     constructor(selector) {
         this.containerDiv = null;
@@ -46,7 +49,7 @@ class BoatInfoDisplay {
             {
                 width: this.hullElement.width,
                 height: this.hullElement.height,
-                boatColor: BOAT_COLOR
+                boatColor: globs.BOAT_COLOR
             });
     }
 
@@ -68,3 +71,5 @@ class BoatInfoDisplay {
             });
     }
 }
+
+module.exports = { BoatInfoDisplay: BoatInfoDisplay };

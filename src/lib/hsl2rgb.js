@@ -1,3 +1,5 @@
+var globs = require('../sim_globals.js');
+
 /**
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -9,7 +11,7 @@
  * @param   Number  l       The lightness
  * @return  Array           The RGB representation
  */
-function hslToRgb(h, s, l){
+globs.hslToRgb = function(h, s, l){
     var r, g, b;
 
     if(s == 0){
