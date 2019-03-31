@@ -19,16 +19,15 @@ module.exports = {
     manualSheet: false,
     sheetInputVal: 0,
 
+    MAX_RUDDER: Math.PI/4,
+    BOAT_COLOR: "#cd4236",
+
     // Time of last animation frame (for controlling framerate)
     lastFrame: Date.now(),
+
     // curAnimationFrame,
     stopped: true,
 
-    speedAverage: 0,
-    speedIdx: 0,
-    SPEED_AVG_ENTRIES: 10,
-    speedEntries: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    speedSum: 0,
     boatSize: 35,
     mastHeight: 0,
 }

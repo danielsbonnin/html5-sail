@@ -79,7 +79,6 @@ function init() {
     globs.sheetToggle.addEventListener("input", onSheetToggle, false);
     
     if (!globs.manualSheet) {
-        globs.sheetDisplay.value = "AUTO";
         globs.sheetCtrl.disabled  = !globs.manualSheet;
     }
     
@@ -121,11 +120,10 @@ function onSheetInput(ev) {
 function onSheetToggle(ev) {
     globs.manualSheet = !globs.manualSheet;
     globs.sheetCtrl.disabled = !globs.manualSheet;
-    if (!globs.manualSheet) {
-        // sheetDisplay.value = "AUTO";
-    } else {
+    if (globs.manualSheet) {
         globs.sheetInputVal = globs.boat.sheet;
     }
+    globs.boat.manualSheet = globs.manualSheet;
 }
 
 function toggleLoop() {

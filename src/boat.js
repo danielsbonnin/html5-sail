@@ -2,6 +2,7 @@ import globs from './sim_globals';
 import { HullComponent } from './lib/components/hull-component';
 import { SailComponent } from './lib/components/sail-component';
 import math from './lib/math';
+import BoatSimulation from './simulation';
 
 // BOAT CLASS //
 
@@ -19,11 +20,9 @@ globs.boatCoords = [ 	math.pol2car(globs.boatSize, 0),
 
 globs.mastBase = { x: globs.boatSize/3, y: 0 };
 
-globs.MAX_RUDDER = Math.PI/4;
-globs.BOAT_COLOR = "#cd4236";
-// Change in heading at full rudder, speed: 1
-globs.HEADING_DELTA_MAX_RUDDER = Math.PI / 128;
-
+/**
+ * Maintains state of a boat over time
+ */
 export class Boat {
 	constructor() {
 		this.angle = Math.PI;
@@ -33,40 +32,29 @@ export class Boat {
 		this.boom = 0;
 		this.sheet = Math.PI/2; // The rope controlling the boom
 		this.rudder = 0; 
-		this.relativeWind = calculateRelativeWind(globs.wind.angle, this.angle);
+		this.relativeWind = 0;
+		this.manualSheet = false;
 	}
 
 	updatePos () {
 		// resolve boat angle (heading) based on speed and rudder angle
-		let newAngle = this.angle + headingDelta(this.rudder, Math.max(0.1, this.speed));
-		let absAngle = Math.abs(newAngle);
-		if (absAngle > Math.PI) {
-			if (newAngle > 0) {
-				newAngle = -(Math.PI - (absAngle % Math.PI));
-			} else {
-				newAngle = Math.PI - (absAngle % Math.PI);
-			}
-		}
-		this.angle = newAngle;
+		this.angle = BoatSimulation.calculateHeading(this.rudder, Math.max(0.1, this.speed), this.angle);
 
 		this.relativeWind = calculateRelativeWind(globs.wind.angle, this.angle);
 
-		if (globs.manualSheet) {
-			this.sheet = globs.sheetInputVal;
-		} else {
+		if (!this.manualSheet) {
 			this.sheet = this.calculateSheet(this.relativeWind);
 		}
+
 		globs.sheetCtrl.value = this.sheet;
 		globs.sheetDisplay.value = Math.round(Math.min(1, (math.rad2deg(this.sheet))/90) * 100);
 
 		// set the boom angle to the opposite of the boat angle restricted by sheet
-		this.boom = math.clip(-this.relativeWind, -this.sheet, this.sheet);
-		this.tilt = Math.cos(this.boom) * Math.sin(this.relativeWind + this.boom) * 0.8;
-		let newSpeed = -(Math.sin(this.boom) * Math.sin(this.relativeWind + this.boom)) * 15;
-
-		// inertia
-		let speedDelta = newSpeed - this.speed;
-		this.speed += speedDelta * globs.INERTIA;
+		this.boom = BoatSimulation.calculateBoom(this.relativeWind, this.sheet);
+		
+		this.tilt = BoatSimulation.calculateTilt(this.relativeWind, this.boom);
+		
+		this.speed = BoatSimulation.calculateSpeed(this.boom, this.relativeWind, this.speed);
 		
 		this.pos.x = math.clip(this.pos.x + Math.cos(this.angle)*this.speed, -globs.mapWidth/2, globs.mapWidth/2);
 		this.pos.y = math.clip(this.pos.y + Math.sin(this.angle)*this.speed, -globs.mapHeight/2, globs.mapHeight/2);
@@ -99,26 +87,6 @@ export class Boat {
 		}
 		this.rudder = math.clip(this.rudder + rudderDelta, -globs.MAX_RUDDER, globs.MAX_RUDDER);
 	}
-}
-
-/**
- * Change in heading (radians) given rudder and speed 
- * @param {Number} rudder 
- * @param {Number} speed 
- */
-function headingDelta(rudder, speed) {
-	return (rudderPercent(rudder)/100) * speed * globs.HEADING_DELTA_MAX_RUDDER;
-}
-
-/**
- * Return percent of max/min rudder, given a rudder input 
- * @param {Number} rudder 
- */
-function rudderPercent(rudder) {
-	if (Math.abs(rudder) < 0.001) {
-		rudder = 0.001;
-	}
-	return (rudder / globs.MAX_RUDDER) * 100;
 }
 
 /**

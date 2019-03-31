@@ -55,6 +55,23 @@ module.exports.radDiff = function(rad1, rad2)
 { return module.exports.modulo( (rad1-rad2)+Math.PI, 2*Math.PI ) - Math.PI }
 
 /**
+ * Modulus for heading system based on 0-180 -> -180-0
+ *   ex: -181 -> 179; 190->-170
+ */
+module.exports.radModPosNeg = function(rad) {
+    let absAngle = Math.abs(rad);
+    let result = rad;
+    if (absAngle > Math.PI) {
+        if (rad > 0) {
+            result = -(Math.PI - (absAngle % Math.PI));
+        } else {
+            result = Math.PI - (absAngle % Math.PI);
+        }
+    }
+    return result;    
+}
+
+/**
  * Converts an HSL color value to RGB. Conversion formula
  * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
  * Assumes h, s, and l are contained in the set [0, 1] and
