@@ -1,4 +1,4 @@
-var globs = require('../sim_globals.js');
+import globs from '../sim_globals';
 
 /**
  * Converts an HSL color value to RGB. Conversion formula

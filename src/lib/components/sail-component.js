@@ -1,5 +1,4 @@
-var globs = require('../../sim_globals.js');
-var { CanvasComponent } = require('./canvas-component.js');
+import globs from '../../sim_globals';
 
 export class SailComponent {
     static draw(ctx) {

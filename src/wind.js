@@ -1,4 +1,4 @@
-var globs = require('./sim_globals.js');
+import globs from './sim_globals';
 
 export class Wind {
 	constructor(canvasElement, windSpeed=3, startAngle=0) {

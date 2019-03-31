@@ -1,5 +1,5 @@
-var globs = require('./sim_globals.js');
-var math = require('./lib/math.js');
+import globs from './sim_globals';
+import math from './lib/math';
 
 export class Water {
     constructor (canvasElement) {

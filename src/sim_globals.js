@@ -16,15 +16,6 @@ module.exports = {
 
     // Scale changes in speed to simulate inertia
     INERTIA: 0.05,  
-
-    // minimap, wind, boat, water,
-
-    // controls
-    /*
-    stopBtn, resetPosBtn, frameRateDisplay, rudderDisplay, frameRateCtrl, rudderCtrl,
-    windCtrl, windDisplay, speedMeter, boatInfoDisplay, mapSizeCtrl, mapSizeDisplay,
-    sheetCtrl, sheetDisplay, sheetToggle,
-    */
     manualSheet: false,
     sheetInputVal: 0,
 
@@ -32,9 +23,6 @@ module.exports = {
     lastFrame: Date.now(),
     // curAnimationFrame,
     stopped: true,
-
-    // boatAngleGauge,
-    // speedGauge,
 
     speedAverage: 0,
     speedIdx: 0,

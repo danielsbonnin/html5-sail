@@ -1,7 +1,7 @@
-var globs = require('./sim_globals.js');
-var { HullComponent } = require('./lib/components/hull-component.js');
-var { SailComponent } = require('./lib/components/sail-component.js');
-var math = require('./lib/math.js');
+import globs from './sim_globals';
+import { HullComponent } from './lib/components/hull-component';
+import { SailComponent } from './lib/components/sail-component';
+import math from './lib/math';
 
 // BOAT CLASS //
 

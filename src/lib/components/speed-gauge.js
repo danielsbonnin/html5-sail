@@ -1,6 +1,6 @@
-var { RadialGauge } = require('./radial-gauge.js');
+import { RadialGauge } from './radial-gauge';
 
-class SpeedGauge {
+export class SpeedGauge {
     constructor(elementName) {
         this.gaugeValue = 0;
         this.gauge = new RadialGauge({
@@ -26,5 +26,3 @@ class SpeedGauge {
         this.gaugeValue = val;
     }
 }
-
-module.exports = { SpeedGauge: SpeedGauge };

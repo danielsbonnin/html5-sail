@@ -1,7 +1,7 @@
-var { BoatHull, WindArrow, BoomComponent } = require('./canvas-component');
-var globs = require('../../sim_globals.js');
+import { BoatHull, WindArrow, BoomComponent } from './canvas-component';
+import globs from '../../sim_globals';
 
-class BoatInfoDisplay {
+export class BoatInfoDisplay {
     constructor(selector) {
         this.containerDiv = null;
         this.hullElement = null;
@@ -71,5 +71,3 @@ class BoatInfoDisplay {
             });
     }
 }
-
-module.exports = { BoatInfoDisplay: BoatInfoDisplay };
